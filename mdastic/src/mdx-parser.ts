@@ -694,6 +694,11 @@ export function mdxHooks(source: string, syntax: MdxSyntax) {
         if (scanned.error) throw scanned.error
         return scanned.complete
       }
+      // Container prefixes are not part of the tag or expression micromark reads.
+      if (view.map) {
+        const scanned = flowLine(view, starts[at] + begin - line.start)
+        return !!scanned.error || scanned.complete
+      }
     },
     interrupt(line: Line) {
       let i = line.start
