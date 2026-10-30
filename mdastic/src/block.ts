@@ -1386,7 +1386,7 @@ function hasNestedBlankLine(source: string, content: Line[], parent: number): bo
     } else continue
     for (let c = tree.child[n]; c; c = tree.next[c]) {
       for (const line of content)
-        if (line.start >= previousEnd && line.end <= tree.start[c] && blank(source, line))
+        if (line.end > previousEnd && line.end <= tree.start[c] && blank(source, line))
           return true
       previousEnd = tree.end[c]
     }
@@ -1394,7 +1394,7 @@ function hasNestedBlankLine(source: string, content: Line[], parent: number): bo
     // line at EOF has none).
     for (const line of content)
       if (
-        line.start >= previousEnd &&
+        line.end > previousEnd &&
         (tree.kind[n] === Kind.FootnoteDefinition
           ? line.end < line.next && line.next <= end
           : line.end <= end) &&
